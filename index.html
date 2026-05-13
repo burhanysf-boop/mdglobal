@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sistem Karyawan</title>
+    <style>
+        /* Menggunakan dvh (Dynamic Viewport Height) agar pas di HP */
+        body, html {
+            margin: 0; padding: 0; 
+            width: 100%; height: 100%;
+            height: 100dvh; 
+            overflow: hidden; 
+            background-color: #ffffff;
+            font-family: sans-serif;
+            display: flex; 
+            flex-direction: column;
+        }
+        
+        /* Area Konten */
+        .content {
+            flex: 1; /* Mengambil sisa ruang yang tersedia */
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: none; 
+            display: none;
+        }
+
+        iframe.active { display: block; }
+
+        /* Navigasi Bawah */
+        .bottom-nav {
+            height: 65px; /* Sedikit lebih tinggi agar nyaman di jempol */
+            display: flex;
+            background-color: #f8f9fa; 
+            border-top: 1px solid #ddd;
+            padding-bottom: env(safe-area-inset-bottom); /* Support iPhone modern */
+            box-sizing: content-box;
+        }
+        
+        .tab-btn {
+            flex: 1; border: none; background: transparent;
+            font-size: 13px; cursor: pointer; font-weight: bold;
+            outline: none; transition: 0.2s;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+        }
+
+        /* Tombol Absensi (Hijau) */
+        #btnAbsen { color: #188038; border-right: 1px solid #eee; }
+        #btnAbsen.active { background-color: #e6f4ea; border-top: 4px solid #188038; }
+
+        /* Tombol Rekap (Kuning/Orange) */
+        #btnRekap { color: #d48806; }
+        #btnRekap.active { background-color: #fffbe6; border-top: 4px solid #d48806; }
+    </style>
+</head>
+<body>
+
+    <div class="content">
+        <!-- LINK 1: Absensi -->
+        <iframe id="frameAbsen" class="active" allow="geolocation" 
+            src="https://script.google.com/macros/s/AKfycbyHR2gpAVcTdyNocb8jdppdGuyhF2hB3sOL80w9TAmD-wQnZiZS8yTMdHm4Sb-K-1GyYg/exec"></iframe>
+        
+        <!-- LINK 2: Rekap -->
+        <iframe id="frameRekap" allow="geolocation" 
+            src="https://script.google.com/macros/s/AKfycbwfyoL6tzGwZfcSwXJfIY2NDgsCxR-W3-dZNfvsO7pGlzmsJpX33dFSAdenIxqBlYHL/exec></iframe>
+    </div>
+
+    <div class="bottom-nav">
+        <button id="btnAbsen" class="tab-btn active" onclick="switchTab('absen')">
+            <span>📍</span>
+            Presensi
+        </button>
+        <button id="btnRekap" class="tab-btn" onclick="switchTab('rekap')">
+            <span>📊</span>
+            Rekap
+        </button>
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            const fAbsen = document.getElementById('frameAbsen');
+            const fRekap = document.getElementById('frameRekap');
+            const bAbsen = document.getElementById('btnAbsen');
+            const bRekap = document.getElementById('btnRekap');
+
+            if (tab === 'absen') {
+                fAbsen.classList.add('active');
+                fRekap.classList.remove('active');
+                bAbsen.classList.add('active');
+                bRekap.classList.remove('active');
+            } else {
+                fRekap.classList.add('active');
+                fAbsen.classList.remove('active');
+                bRekap.classList.add('active');
+                bAbsen.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
